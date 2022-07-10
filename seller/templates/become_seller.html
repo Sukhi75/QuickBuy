@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %} Become Seller {% endblock %} {% block content %}
+<h1 class="title"> Become Seller</h1>
+{% load crispy_forms_tags %}
+<form method="POST" action=".">
+    {% csrf_token %} {{ form|crispy }}
+    <div class="field">
+        <div class="control">
+            <button class="button is-dark is-uppercase">Sign Up</button>
+        </div>
+    </div>
+</form>
+
+<hr>
+<h2 class="subtitle">Already have an account?</h2>
+<a class="btn btn-lg btn-block btn-success text-uppercase" href="{% url 'login' %}"> Login</a>
+{% endblock %}

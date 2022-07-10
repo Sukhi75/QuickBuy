@@ -1,0 +1,335 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet" />
+    <!-- Font-Awesome CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Google Font Family CSS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <title>{% block title %}QuickBuy{% endblock %}</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fulid topbar mb-0">
+        <p>Free Shipping </p>
+    </div>
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <nav id="navbar_top" class="navbar navbar-expand-lg navbar-light bg-light topnavbar">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'eshop:product_list' %}" id="BrandName">QuickBuy</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse order-1" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'eshop:product_list' %}">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link shipping" href="{% url 'eshop:all_product' %}">Our Products</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link shipping" href="#">Shipping Policy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Return Policy</a>
+                        </li>
+
+                        {% with total_items=cart|length %} {% if total_items > 0 %}
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'cart:cart_detail' %}">
+                                    <i class="fa fa-shopping-cart cart " data-toggle="tooltip" data-placement="bottom" data-original-title="Tooltip on bottom" class="red-tooltip" title="{{ total_items }} item{{ total_items|pluralize }},${{ cart.get_total_price }}" aria-hidden="true"></i>
+                                </a>
+                            </li>
+
+
+                            {% else %}
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fa fa-shopping-cart cart " data-toggle="tooltip" data-placement="bottom" data-original-title="Tooltip on bottom" class="red-tooltip" title="No Product in the Cart" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        {% endif %} {% endwith %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-user user" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <div id="close-sidebar" class="ms-auto">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <!-- sidebar-header  -->
+                <!-- sidebar-search  -->
+                <div id="sidebar-wrapper">
+                    <ul class="sidebar-nav">
+
+
+                        <li class="sidebar-brand" {% if not category %} class="selected" {% endif %}>
+                            <a class="category" href="{% url 'eshop:all_product' %}">All</a>
+                        </li>
+                        <li class="sidebar-brand "> <a class="category"> Categories </a> </li>
+                        {% for c in categories %}
+                        <li class="sidebar-brand" {% if category.slug == c.slug %}class="selected" {% endif %}>
+                            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-content  -->
+        </nav>
+        <!-- sidebar-wrapper  -->
+
+        <main class="page-content">
+
+            <div class="container">
+                <!-- start hero Section -->
+                <!-- End hero section -->
+
+                <!-- start page title section  -->
+                <div class="row mt-5 allproducts">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <nav aria-label="breadcrumb text-center">
+                            <ol class="breadcrumb" style="background-color: #fff!important;">
+                                <li class="breadcrumb-item product active" aria-current="page">
+                                    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 mt-3 text-center">
+                        <p id="showproduct">Showing {{ products.start_index }}-{{ products.end_index }} of {{ products.paginator.count }} results</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 mt-3">
+                        <select class="nice-select" name="price">
+                                                <option>Sort by popularity</option>
+                                                <option value="asc">Sort by average rating</option>
+                                                <option value="desc">Sort by popularity</option>
+                                                <option value="pop">Sort by latest</option>
+                                                <option value="low">Sort by: low to high</option>
+                                                <option value="high">Sort by: high to low</option>
+                                            </select>
+                    </div>
+                </div>
+                <!-- end page title section  -->
+
+                <!-- ======= All Product Section ======= -->
+                <section id="portfolio" class="portfolio mt-5 mb-3">
+                    <div class="container">
+                        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+                            {% for product in products %}
+                            <div class="col-lg-3 col-md-4 col-sm-4 portfolio-item filter-app">
+                                <div class="portfolio-wrap"
+                                     onclick="window.location = ('{{ product.get_absolute_url }}')">
+                                    <img style="max-height: 260px !important;min-height: 260px;" src="
+
+                                            {% if product.image %}{{ product.image.url }}{% else %}{% static ' img/no_image.png ' %}{% endif %}"
+                                         class="img-fluid" alt=""/>
+
+                                    {#                                    <div class="portfolio-info">#}
+                                    {#                                        <div class="portfolio-links">#}
+                                    {#                                            <a href="assets/images/card1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1">#}
+                                    {#                                                <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>#}
+                                    {#                                            </a>#}
+                                    {#                                            <a href="{% url 'eshop:product_list' %}" class="heart" title="Add to wishlist">#}
+                                    {#                                                <i class="fa fa-heart-o" aria-hidden="true"></i>#}
+                                    {#                                            </a>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
+
+                                </div>
+                                <div class="card-body">
+                                    <a href="{{ product.get_absolute_url }}" style="text-decoration: none; color: #555">
+                                        <p class="card-text">
+                                            {{ product.name }}
+                                        </p>
+                                        <p>
+                                            <!--<del><span>$59.99</span></del>-->
+                                            <span>${{ product.price }}</span>
+                                        </p>
+                                    </a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                            <!-- end of first product -->
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-5">
+                                <nav aria-label="Page navigation example">
+                                    {% if products.has_other_pages%}
+                                <ul class="pagination justify-content-center">
+                                    {% if products.has_previous %}
+                                    <li class="page-item">
+                                        <a href="?page={{products.previous_page_number}}" class="page-link">&laquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">&laquo;</a>
+                                    </li>
+                                    {% endif %} {% for i in products.paginator.page_range %} {% if products.number == i %}
+                                    <li class="page_item active">
+                                        <a class="page-link">{{i}}</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item"></li>
+                                    <a href="?page={{i}}" class="page-link"></a>
+                                    {% endif %} {% endfor %} {% if products.has_next %}
+                                    <li class="page-item">
+                                        <a href="?page={{products.next_page_number}}" class="page-link">&raquo;</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">&raquo;</a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                                {% endif %}
+                                </nav>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </section>
+                <!-- End Product Section -->
+
+            </div>
+            <section class="footer">
+                <div class="container py-4">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 mb-4">
+                            <h6 class="text-uppercase">customer care</h6>
+                            <div class="is-divider small" style="
+                              background-color: rgba(255, 255, 255, 0.3) !important;
+                            "></div>
+                            <p class="text-uppercase">faq</p>
+                            <hr style="border-color: rgba(255, 255, 255, 0.08)" />
+                            <p>Return Policy</p>
+                            <hr style="border-color: rgba(255, 255, 255, 0.08)" />
+                            <p>Shipping Policy</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 mb-4">
+                            <h6 class="text-uppercase">company info</h6>
+                            <div class="is-divider small" style="
+                              background-color: rgba(255, 255, 255, 0.3) !important;
+                            "></div>
+                            <p>About Us</p>
+                            <hr style="border-color: rgba(255, 255, 255, 0.08)" />
+                            <p>Privacy Policy</p>
+                            <hr style="border-color: rgba(255, 255, 255, 0.08)" />
+                            <p>Terms of Use</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <h6 class="text-uppercase">keep in touch</h6>
+                            <div class="is-divider small" style="
+                              background-color: rgba(255, 255, 255, 0.3) !important;
+                            "></div>
+                            <p>support@ sukbhatt@gmail.com</p>
+                            <hr style="border-color: rgba(255, 255, 255, 0.08)" />
+                            <p>Contact Us</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer style="background-color: #000000">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 mt-3 mb-4">
+                            <p style="color: #fff">
+                                Copyright 2022 © sukbhatt@gmail.com
+                            </p>
+                        </div>
+                        <div class="col-md-6 mt-3 mb-6">
+                            <i class="fa fa-3x fa-cc-visa" aria-hidden="true"></i>
+                            <i class="fa fa-3x fa-cc-paypal" aria-hidden="true"></i>
+                            <i class="fa fa-3x fa-cc-mastercard" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <button onclick="topFunction()" id="myBtn" title="Go to top">
+                <i class="fa fa-chevron-up" aria-hidden="true"></i>
+            </button>
+
+            <!--footer part end-->
+        </main>
+        <!-- page-content" -->
+        <!-- start All Prodcuts Show section -->
+
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'assets/js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <script>
+        $(window).on('load', function() { // makes sure the whole site is loaded
+            $('#status').fadeOut(); // will first fade out the loading animation
+            $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
+            $('body').delay(350).css({
+                'overflow': 'visible'
+            });
+        })
+
+        if ($(window).width() > 992) {
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 40) {
+                    $('#navbar_top').addClass("fixed-top");
+                    // add padding top to show content behind navbar
+                    $('body').css('padding-top', $('.navbar').outerHeight() + 'px');
+                } else {
+                    $('#navbar_top').removeClass("fixed-top");
+                    // remove padding top from body
+                    $('body').css('padding-top', '0');
+                }
+            });
+        } // end if
+    </script>
+</body>
+
+</html>
