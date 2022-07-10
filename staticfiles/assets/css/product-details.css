@@ -1,0 +1,196 @@
+#featured{
+    max-width: 500px;
+    max-height: 600px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid black;
+}
+.thumbnail{
+    object-fit: cover;
+    max-width: 180px;
+    max-height: 100px;
+    cursor: pointer;
+    opacity: 0.5;
+    margin: 5px;
+    border: 2px solid black;
+}
+
+.thumbnail:hover{
+    opacity: 1;
+}
+
+.active{
+    opacity: 1;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    color: #555;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: .5em;
+    text-rendering: optimizeSpeed;
+}
+.is-divider {
+    height: 3px;
+    display: block;
+    background-color: rgba(0,0,0,0.1);
+    margin: 1em 0 1em;
+    width: 100%;
+    max-width: 30px;
+}
+.price {
+    font-size: 1.5em;
+    margin: .5em 0;
+    font-weight: bolder;
+}
+.price {
+    display: block;
+}
+del span.amount {
+    opacity: .6;
+    font-weight: normal;
+    margin-right: .3em;
+}
+
+.add-to-cart {
+    background-color: #dd9933;
+    border: 1px solid #dd9933;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.add-to-cart:hover {
+    background-color: #dd9933;
+    outline: none;
+    opacity: 1;
+    color: #fff;
+    box-shadow: inset 0 0 0 100px rgb(0 0 0 / 20%);
+}
+
+.buy-now{
+    background-color: #ffc520;
+    border: 1px solid #dd9933;
+    border-radius: 15px;
+    font-weight: bold;
+}
+.minus{
+    background: transparent;
+    padding: 0 15px;
+    border: 3px solid rgb(0,0,0,0.1);
+}
+.plus{
+    background: transparent;
+    padding: 0 15px;
+    border: 3px solid rgb(0,0,0,0.1);
+}
+
+button.btn.submit {
+    background-color: #353535;
+    color: #fff;
+}
+
+ul#myTab {
+    margin-left: 35%;
+}
+
+.nav-tabs {
+    border: none;
+}
+
+div#myTabContent {
+    border: 1px solid #dee2e6;
+}
+
+.container.description {
+    padding: 30px;
+}
+.description h6{
+    font-weight: bold;
+    color: #555;
+}
+
+.container.additional-information {
+    padding: 30px;
+}
+table .weight{
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.container.reviews {
+    padding: 40px;
+}
+
+.reviews h4{
+    font-weight: bold;
+    color: #353535;
+
+}
+
+.col-lg-12.col-md-12.col-sm-12.formhandle {
+    border: 2px solid #353535;
+    padding: 20px;
+}
+.formhandle h5, label {
+    font-weight: bold;
+    color: #353535;
+}
+
+@media (min-width: 280px) and (max-width: 653px) {
+    ul#myTab {
+        margin-left: 0%;
+    }
+}
+@media (min-width: 320px) and (max-width: 568px) {
+    ul#myTab {
+        margin-left: 0%;
+    }
+}
+@media (min-width: 360px) and (max-width: 640px) {
+    ul#myTab {
+        margin-left: 0%;
+    }
+}
+@media (min-width: 375px) and (max-width: 667px) {
+    ul#myTab {
+        margin-left: 0%;
+    }
+}
+@media (min-width: 411px) and (max-width: 731px) {
+    ul#myTab {
+        margin-left: 0%;
+    }
+}
+@media (min-width: 540px) and (max-width: 720px) {
+    ul#myTab {
+        margin-left: 20%;
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    ul#myTab {
+        margin-left: 20%;
+    }
+}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+    ul#myTab {
+        margin-left: 35%;
+    }
+}
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    ul#myTab {
+        margin-left: 35%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-lg-8.col-md-7.col-sm-12.button {
+        display: inline-flex;
+    }
+}
